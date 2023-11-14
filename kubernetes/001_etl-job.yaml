@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: etl-job
+  namespace: datamesh
+spec:
+  template:
+    metadata:
+      name: etl-pod
+    spec:
+      containers:
+      - name: etl-script
+        image: localhost:5000/etl
+        command: ["python", "etl.py"]
+      restartPolicy: Never
+  backoffLimit: 4
