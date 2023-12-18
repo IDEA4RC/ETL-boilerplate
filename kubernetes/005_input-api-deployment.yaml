@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-nodejs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-nodejs
+  template:
+    metadata:
+      labels:
+        app: api-nodejs
+    spec:
+      containers:
+      - name: api-nodejs
+        image: <imagen-de-nodejs>
+        ports:
+        - containerPort: 3000
+env:
+  - name: MARIADB_USERNAME
+    valueFrom:
+      secretKeyRef:
+        name: mariadb-credentials
+        key: username
+  - name: MARIADB_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: mariadb-credentials
+        key: password

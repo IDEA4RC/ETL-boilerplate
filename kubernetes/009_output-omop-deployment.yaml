@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: omop-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: omop-postgres
+  template:
+    metadata:
+      labels:
+        app: omop-postgres
+    spec:
+      containers:
+      - name: omop-postgres
+        image: postgres:14
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: omop-postgres-data
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: omop-postgres-data
+        persistentVolumeClaim:
+          claimName: omop-postgres-data
